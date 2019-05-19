@@ -15,7 +15,10 @@ class Web1Parliament:
 			os.path.dirname(os.path.abspath(__file__)), 'NewsPapers')
 		self.driver_builder = DriverBuilder()
 		self.driver = self.driver_builder.get_driver(download_location=self.download_dir)
-		self.start_url = 'https://srv-web1.parliament.gr/library.asp?item=40200&seg='
+		# Paste start-url and add  and 
+		extension_string = '&seg='
+		self.start_url = 'https://srv-web1.parliament.gr/library.asp?item=40200' + extension_string
+		# self.start_url = 'https://srv-web1.parliament.gr/library.asp?item=39094&seg='
 
 	def get_newspaper_titles(self):
 		self.driver.get(self.start_url)
@@ -115,7 +118,10 @@ class Web1Parliament:
 		os.rename(filename, new_filename)
 		inpath = os.path.join(self.download_dir, new_filename)
 		outpath = os.path.join(self.download_dir, move_to)
-		shutil.move(inpath, outpath)
+		try:
+			shutil.move(inpath, outpath)
+		except Exception as e:
+			print(e)
 
 
 	def restart_driver(self, url):
@@ -134,7 +140,8 @@ class Web1Parliament:
 	def main(self):
 		values, titles = self.get_newspaper_titles()
 		self.make_dirs(titles)
-		for i in range(1, len(values)):
+		# Adjust if pages to be excluded
+		for i in range(0, len(values)):
 			print (titles[i])
 			self.open_newspaper(values[i])
 			self.download_newspapers(titles[i])
