@@ -13,8 +13,8 @@ class Web1Parliament:
 	def __init__(self):
 		self.download_dir = os.path.join(
 			os.path.dirname(os.path.abspath(__file__)), 'NewsPapers')
-		driver_builder = DriverBuilder()
-		self.driver = driver_builder.get_driver(download_location=self.download_dir)
+		self.driver_builder = DriverBuilder()
+		self.driver = self.driver_builder.get_driver(download_location=self.download_dir)
 		self.start_url = 'https://srv-web1.parliament.gr/library.asp?item=40200&seg='
 
 	def get_newspaper_titles(self):
